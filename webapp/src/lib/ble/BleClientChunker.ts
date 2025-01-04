@@ -95,6 +95,7 @@ export class BleClientChunker implements BinaryTransport {
 
             // Read the first chunk of the response
             let responseChunk = await this.io.read();
+            console.log('responseChunk', responseChunk);
 
             // If the response is empty, retry after 100ms
             if (BleChunkHead.isNodata(responseChunk)) {
@@ -117,7 +118,7 @@ export class BleClientChunker implements BinaryTransport {
                 // If missed chunks, retry the entire process
                 continue;
             }
-            
+
             // Read remaining chunks if necessary
             const responseChunks: BleChunk[] = [responseChunk];
 
@@ -133,6 +134,7 @@ export class BleClientChunker implements BinaryTransport {
             }
 
             // Merge the response chunks into a single BleMessage and return
+            console.log('responseChunks', responseChunks);
             return mergeUint8Arrays(responseChunks.map(chunk => chunk.slice(4)));
         }
     }

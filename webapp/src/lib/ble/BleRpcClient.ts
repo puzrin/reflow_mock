@@ -168,7 +168,11 @@ export class BleRpcClient {
         try {
             const client_id: Uint8Array = this.authStorage.getClientId();
 
-            let auth_info : AuthInfo = msgpack_decode(await this.authCaller.invoke('auth_info') as Uint8Array) as AuthInfo
+            const resp = await this.authCaller.invoke('auth_info') as Uint8Array
+            console.log('auth_info bin:', resp);
+            let auth_info : AuthInfo = msgpack_decode(resp) as AuthInfo
+            console.log('auth_info:', auth_info);
+            //let auth_info : AuthInfo = msgpack_decode(await this.authCaller.invoke('auth_info') as Uint8Array) as AuthInfo
             const device_id = auth_info.id;
             let secret: Uint8Array;
 
